@@ -1,7 +1,7 @@
 # Langchain Tutorial
 Tutorial baseado na série LangChain Tutorial (Python), disponível em: https://youtu.be/ekpnVh-l3YA?si=yxcA98jQwIS3QSPu
 
-## Fluxo
+# Fluxo (Documents, Retrieval e Vector DB)
 ![alt text](image.png)
 
 ## Document Loader
@@ -37,6 +37,12 @@ Ex.:
 
 ## Vector DB
 Ainda que usemos o document pra fazer scraping, via DocumentLoader, de uma site e/ou doc, teremos um problema para resolver, pois o DocumentLoader busca o dado, mas
-para darmos a resposta correta é necessário determinar a relevância da informação e é aqui que entra o Vector DB
+para darmos a resposta correta é necessário determinar a relevância da informação e é aqui que entra o Vector DB.
+Um Vector DB usa uma técnica chamada semantic ou similarity search. O Vector DB vai retornar apenas os documentos mais relevantes ao contexto que foi passado na query
 
+Exemplos de Vector DB são FAISS (para rodar In memory) e o Pinecone, que é um Serverless Vector DB
+
+
+### Embed
+Uma função de Embedding converte os documentos do DocumentLoader em um formato apropriado que um Vector DB aceita
 
