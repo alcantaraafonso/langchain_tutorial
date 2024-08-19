@@ -60,7 +60,7 @@ if __name__ == '__main__':
         
         return chain.invoke({
             "phrase": "The ingredients for a Margherita pizza are tomatoes, onions, cheese, basil",
-            "format_instructions": parser.get_format_instructions()
+            "format_instructions": parser.get_format_instructions() # uses the pydantic object to get the format instructions
         }) 
 
 
