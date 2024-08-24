@@ -72,6 +72,7 @@ agent = create_openai_functions_agent(
 agentExecutor = AgentExecutor(
     agent=agent,
     tools=tools
+    #memory=memory # usar o código do memory.py
 )
 
 def process_chat(agentExecutor, user_input, chat_history):
