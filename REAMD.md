@@ -1,6 +1,21 @@
 # Langchain Tutorial
 Tutorial baseado na série LangChain Tutorial (Python), disponível em: https://youtu.be/ekpnVh-l3YA?si=yxcA98jQwIS3QSPu
 
+
+## Conceitos
+### chain
+é uma sequência de chamadas que podem ser feitas a um LLM
+
+### Agent
+Usa tools (functions) para execução
+
+### Embeddings
+Mede o grau de relação entre um texto e uma query. Embeddings são usados para:
+* Search: Onde resultados são ranqueados por relevância para a query
+* Clustering: Onde textos são agrupados por similaridade
+* Recommendations: Onde itens com relação ao texto são recomendados
+* Anomaly Detection: Onde um valor atípico com pouca relação são identificados
+
 # Fluxo (Documents, Retrieval e Vector DB)
 ![alt text](image.png)
 
