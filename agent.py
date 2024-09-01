@@ -1,4 +1,5 @@
 
+import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -19,6 +20,11 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 
 # Used to convert the retrieved documents into a function that can be used by the agent
 from langchain.tools.retriever import create_retriever_tool
+
+#memory
+# the memory module is used to store the conversation history
+from langchain.memory import ConversationBufferMemory
+from langchain_community.chat_message_histories.upstash_redis import UpstashRedisChatMessageHistory
 
 load_dotenv()
 
@@ -48,12 +54,26 @@ model = ChatOpenAI(
     temperature = 0.7,
 )
 
+history = UpstashRedisChatMessageHistory(
+    url=os.getenv("UPSTASH_REDIS_REST_URL"),
+    token=os.getenv("UPSTASH_REDIS_REST_TOKEN"),
+    session_id="my_session_id", # this need to be unique for each user
+    ttl=3600 # time to live in seconds
+)
+
 prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a friendly Assistant called Max."),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}"),
     MessagesPlaceholder(variable_name="agent_scratchpad")
 ])
+
+#Attaching the memory to the chain
+memory = ConversationBufferMemory(
+    memory_key="chat_history", 
+    return_messages=True,
+    chat_memory=history #integrating Redis to the chat
+)
 
 search = TavilySearchResults()
 retriever_tool = create_retriever_tool(
@@ -71,8 +91,8 @@ agent = create_openai_functions_agent(
 
 agentExecutor = AgentExecutor(
     agent=agent,
-    tools=tools
-    #memory=memory # usar o código do memory.py
+    tools=tools,
+    memory=memory # usar o código do memory.py
 )
 
 def process_chat(agentExecutor, user_input, chat_history):
